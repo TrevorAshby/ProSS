@@ -1,2 +1,5 @@
+.DS_Store
+src/.DS_Store
+src/ProSS/.DS_Store
 src/ProSS/LJSpeech-1.1/
 src/ProSS/LJSpeech-1.1.tar.bz2
