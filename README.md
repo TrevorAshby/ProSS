@@ -1,6 +1,8 @@
 # ProSS
 ProSS - Prosodic Speech Synthesis 
 
+![Entire Pipeline](ProSS.png "Prosodic Speech Synthesis")
+
 ## Technologies
 - WaveNet: 
 - BERT
