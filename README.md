@@ -4,7 +4,7 @@ ProSS - Prosodic Speech Synthesis
 ![Entire Pipeline](ProSS.png "Prosodic Speech Synthesis")
 
 ## Technologies
-- WaveNet: 
+- WaveNet: https://arxiv.org/pdf/1609.03499v2.pdf
 - BERT
 - Automatic Prosody Annotation: https://arxiv.org/abs/2206.07956
 - Tacotron2: https://arxiv.org/pdf/1712.05884.pdf
@@ -25,8 +25,21 @@ Method based upon this paper: https://arxiv.org/abs/2206.07956
     - wav -> spectrogram -> mfccs -> phoneme dist.
         - alternatively I am developing a model capable of wav -> PPG conversion.
     - incredibly helpful read: https://medium.com/prathena/the-dummys-guide-to-mfcc-aceab2450fd
+    - Wavenet code: https://github.com/vincentherrmann/pytorch-wavenet
 - Text Encoder: Pre-Trained English BERT: https://huggingface.co/bert-base-uncased?text=The+goal+of+life+is+%5BMASK%5D.
     ## Annotations
     - based upon ToBI annotations: https://linguistics.ucla.edu/people/jun/papers%20in%20pdf/J54-ToBI%20Ch04%20ToBI%20and%20commentary-MIT%20Press2022.pdf
+
+        ![ToBI Annotation](ToBI.png "Prosodic annotation style of ToBI.")
+        
+        ### Dataset Annotation
+        - #### PyTobi: https://github.com/monikaUPF/PyToBI
+            - Domínguez, M., Rohrer, P. and Soler-Company, J. 2019. PyToBI: A Toolkit for ToBI Labeling with Python Data Structures. In Proceedings of Interspeech, Graz, Austria, pp: 3675-3676.
+            - Praat *[download required]: https://www.fon.hum.uva.nl/praat/
+                -  place within the "PraatScripts" folder
+            - Montreal Force Aligner (MFA) required to produce word alignment with wav file *[conda required]: https://montreal-forced-aligner.readthedocs.io/en/latest/
+                - can be pip installed
+                - great tutorial: http://eleanorchodroff.com/mfa_tutorial.html
+                - colab notebook for LJSpeech dataset: https://colab.research.google.com/gist/NTT123/12264d15afad861cb897f7a20a01762e/mfa-ljspeech.ipynb#scrollTo=HcZE4uxyMhXg
 
 

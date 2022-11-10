@@ -76,7 +76,6 @@ class DilatedQueue:
         self.in_pos = 0
         self.out_pos = 0
 
-
 class ConstantPad1d(Function):
     def __init__(self, target_size, dimension=0, value=0, pad_start=False):
         super(ConstantPad1d, self).__init__()

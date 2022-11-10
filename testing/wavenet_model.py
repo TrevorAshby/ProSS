@@ -4,7 +4,7 @@ import os
 import os.path
 import time
 from wavenet_modules import *
-#from audio_data import *
+from audio_data import *
 
 
 class WaveNetModel(nn.Module):
@@ -64,7 +64,11 @@ class WaveNetModel(nn.Module):
         self.skip_convs = nn.ModuleList()
 
         # 1x1 convolution to create channels
-        self.start_conv = nn.Conv1d(in_channels=self.classes,
+        # TODO NEED TO DETERMINE INPUT CHANNELS
+        n_seconds = 3
+        sr = 16000
+        input_len = n_seconds * sr
+        self.start_conv = nn.Conv1d(in_channels=input_len,
                                     out_channels=residual_channels,
                                     kernel_size=1,
                                     bias=bias)
@@ -125,7 +129,8 @@ class WaveNetModel(nn.Module):
         self.receptive_field = receptive_field
 
     def wavenet(self, input, dilation_func):
-
+        print('HERE 0.0')
+        print('input.shape: ', input.shape)
         x = self.start_conv(input)
         skip = 0
 
@@ -140,16 +145,19 @@ class WaveNetModel(nn.Module):
             #                                         1x1
             #                                          |
             # ---------------------------------------> + ------------->	*skip*
-
+            print('HERE 0')
             (dilation, init_dilation) = self.dilations[i]
-
+            print('HERE 1')
+            print(f"dilation:{dilation}, init_dilation:{init_dilation}")
+            
             residual = dilation_func(x, dilation, init_dilation, i)
-
+            print(x.shape)
             # dilated convolution
             filter = self.filter_convs[i](residual)
-            filter = F.tanh(filter)
+            print('HERE 2')
+            filter = torch.tanh(filter)
             gate = self.gate_convs[i](residual)
-            gate = F.sigmoid(gate)
+            gate = torch.sigmoid(gate)
             x = filter * gate
 
             # parametrized skip connection
@@ -157,6 +165,7 @@ class WaveNetModel(nn.Module):
             if x.size(2) != 1:
                  s = dilate(x, 1, init_dilation=dilation)
             s = self.skip_convs[i](s)
+            print('HERE 3')
             try:
                 skip = skip[:, :, -s.size(2):]
             except:
@@ -164,11 +173,14 @@ class WaveNetModel(nn.Module):
             skip = s + skip
 
             x = self.residual_convs[i](x)
+            print('HERE 4')
             x = x + residual[:, :, (self.kernel_size - 1):]
+            print('HERE 5')
 
         x = F.relu(skip)
         x = F.relu(self.end_conv_1(x))
         x = self.end_conv_2(x)
+        print('HERE 6')
 
         return x
 
@@ -186,9 +198,11 @@ class WaveNetModel(nn.Module):
         return x
 
     def forward(self, input):
+        print('WE ARE HERE 1')
+        input = input.float()
         x = self.wavenet(input,
                          dilation_func=self.wavenet_dilate)
-        print('WE ARE HERE')
+        print('WE ARE HERE 2')
         # reshape output
         [n, c, l] = x.size()
         l = self.output_length
@@ -232,11 +246,11 @@ class WaveNetModel(nn.Module):
 
         generated = (generated / self.classes) * 2. - 1
         # FIXME
-        #mu_gen = mu_law_expansion(generated, self.classes)
+        mu_gen = mu_law_expansion(generated, self.classes)
 
         self.train()
-        #return mu_gen
-        return generated
+        return mu_gen
+        #return generated
 
     def generate_fast(self,
                       num_samples,
@@ -316,9 +330,9 @@ class WaveNetModel(nn.Module):
 
         self.train()
         # FIXME
-        #mu_gen = mu_law_expansion(generated, self.classes)
-        #return mu_gen
-        return generated
+        mu_gen = mu_law_expansion(generated, self.classes)
+        return mu_gen
+        #return generated
 
 
     def parameter_count(self):
