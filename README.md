@@ -42,4 +42,36 @@ Method based upon this paper: https://arxiv.org/abs/2206.07956
                 - great tutorial: http://eleanorchodroff.com/mfa_tutorial.html
                 - colab notebook for LJSpeech dataset: https://colab.research.google.com/gist/NTT123/12264d15afad861cb897f7a20a01762e/mfa-ljspeech.ipynb#scrollTo=HcZE4uxyMhXg
 
+# <b>Installation</b>
+## Conda installation
+    # {PLATFORM} = Windows, MacOSX, or Linux
+    $ wget -q --show-progress https://repo.anaconda.com/miniconda/Miniconda3-latest-{PLATFORM}-x86_64.sh
+    $ bash Miniconda3-latest-{PLATFORM}-x86_64.sh
+## Montreal Forced Aligner (MFA) installation
+    $ conda create -n aligner -c conda-forge montreal-forced-aligner -y
+    
+    # ACTIVATE ALIGNER
+    $ source activate aligner
+
+    # DEACTIVATE ALIGNER
+    $ conda deactivate
+## PyToBI
+    # clone the pytobi repo in any location
+    $ git clone https://github.com/monikaUPF/PyToBI.git
+
+    # Follow Pytobi readme to install Praat and for complete installation
+# <b>How to use</b>
+## Alignment
+    # should be able to run this and get output
+    $ mfa align --help 
+
+    # follow align_wav_text.ipynb to copy and prepare files for alignment
+
+    # run below within /src/ProSS/alignment 
+    $ mfa align -t ./temp -j 4 ./aligned_pre ./modified_librispeech-lexicon.txt ./english.zip ./aligned_post
+## PyToBI
+    # the /path/to/your/files should be the TextGrid files located in /src/ProSS/alignment/aligned_post with the associated .wav files.
+    $ ./runpytobi.sh /path/to/your/files
+
+
 

@@ -8,4 +8,4 @@ src/ProSS/cmu_arctic/
 src/ProSS/alignment/aligned_post/
 src/ProSS/alignment/aligned_pre/
 src/ProSS/alignment/english.zip
-src/ProSS/alignment/aligned_pre_pretrained_aligner/
+src/ProSS/alignment/temp/aligned_pre_pretrained_aligner/
