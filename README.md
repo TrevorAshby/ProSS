@@ -12,10 +12,10 @@ ProSS - Prosodic Speech Synthesis
 
 ## Datasets
 Dataset: https://keithito.com/LJ-Speech-Dataset/
-- Extract the dataset into 'src/ProSS/LJSpeech-1.1'
+- Extract the dataset into 'src/ProSS/datasets/LJSpeech-1.1'
 
 Other Dataset: http://www.festvox.org/cmu_arctic/
-- Extract the dataset into 'src/ProSS/cmu_arctic/
+- Extract the dataset into 'src/ProSS/datasets/cmu_arctic/
     - This can be done with !wget -e robots=off -r -np http://www.festvox.org/cmu_arctic/cmu_arctic/cmu_us_bdl_arctic/
     - Currently only using 'cmu_us_bdl_arctic'
 
