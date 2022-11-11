@@ -5,3 +5,7 @@ src/ProSS/LJSpeech-1.1/
 src/ProSS/LJSpeech-1.1.tar.bz2
 src/ProSS/cmu_arctic-20221029T225101Z-001.zip
 src/ProSS/cmu_arctic/
+src/ProSS/alignment/aligned_post/
+src/ProSS/alignment/aligned_pre/
+src/ProSS/alignment/english.zip
+src/ProSS/alignment/aligned_pre_pretrained_aligner/
