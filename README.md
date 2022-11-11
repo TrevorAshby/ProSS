@@ -7,8 +7,8 @@ ProSS - Prosodic Speech Synthesis
 - WaveNet: https://arxiv.org/pdf/1609.03499v2.pdf
 - BERT
 - Automatic Prosody Annotation: https://arxiv.org/abs/2206.07956
-- Tacotron2: https://arxiv.org/pdf/1712.05884.pdf
-- Waveglow: https://arxiv.org/pdf/1811.00002.pdf
+- Tacotron2: https://arxiv.org/pdf/1712.05884.pdf | https://github.com/NVIDIA/tacotron2
+- Waveglow: https://arxiv.org/pdf/1811.00002.pdf | https://github.com/NVIDIA/waveglow
 
 ## Datasets
 Dataset: https://keithito.com/LJ-Speech-Dataset/
