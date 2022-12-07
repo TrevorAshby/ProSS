@@ -9,3 +9,10 @@ src/ProSS/alignment/aligned_post/
 src/ProSS/alignment/aligned_pre/
 src/ProSS/alignment/english.zip
 src/ProSS/alignment/temp/aligned_pre_pretrained_aligner/
+src/ProSS/model/tacotron2_statedict.pt
+src/ProSS/model/waveglow_256channels_universal_v5.pt
+
+testing/__pycache__
+src/ProSS/model/tacotron2/__pycache__
+src/ProSS/model/tacotron2/text/__pycache__
+src/ProSS/model/waveglow/__pycache__
