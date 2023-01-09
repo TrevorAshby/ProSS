@@ -16,20 +16,22 @@ class TextMelLoader(torch.utils.data.Dataset):
     """
     def __init__(self, audiopaths_and_text, hparams):
         self.audiopaths_and_text = load_filepaths_and_text(audiopaths_and_text)
-        self.text_cleaners = hparams.text_cleaners
-        self.max_wav_value = hparams.max_wav_value
-        self.sampling_rate = hparams.sampling_rate
-        self.load_mel_from_disk = hparams.load_mel_from_disk
-        self.stft = layers.TacotronSTFT(
-            hparams.filter_length, hparams.hop_length, hparams.win_length,
-            hparams.n_mel_channels, hparams.sampling_rate, hparams.mel_fmin,
-            hparams.mel_fmax)
-        random.seed(hparams.seed)
+        self.text_cleaners = hparams["text_cleaners"]
+        self.max_wav_value = hparams["max_wav_value"]
+        self.sampling_rate = hparams["sampling_rate"]
+        self.load_mel_from_disk = hparams["load_mel_from_disk"]
+        self.stft = tacotron2.layers.TacotronSTFT(
+            hparams["filter_length"], hparams["hop_length"], hparams["win_length"],
+            hparams["n_mel_channels"], hparams["sampling_rate"], hparams["mel_fmin"],
+            hparams["mel_fmax"])
+        random.seed(hparams["seed"])
         random.shuffle(self.audiopaths_and_text)
 
     def get_mel_text_pair(self, audiopath_and_text):
         # separate filename and text
-        audiopath, text = audiopath_and_text[0], audiopath_and_text[1]
+        import os
+        print(os.getcwd())
+        audiopath, text = '../datasets/LJSpeech-1.1/wavs/'+audiopath_and_text[0]+'.wav', audiopath_and_text[1]
         text = self.get_text(text)
         mel = self.get_mel(audiopath)
         return (text, mel)
