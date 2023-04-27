@@ -1,0 +1,22 @@
+file = open('./tfotr_text.txt', 'r').read()
+file = file.replace('\t', '')
+file = file.replace('\n', '')
+file = file.replace(',', ' , ')
+file = file.replace('-', ' - ')
+file = file.replace('\'', ' \' ')
+file = file.replace('\"', ' \" ')
+file = file.replace('(', ' ( ')
+file = file.replace(')', ' ) ')
+file = file.replace(':', ' : ')
+file = file.replace(';', ' ; ')
+file = file.replace('?', ' ?\n')
+file = file.replace('.', ' .\n')
+file = file.replace('!', ' !\n')
+file = file.lower()
+
+newfile = open('./tfotr_text_edited.txt', 'w')
+newfile.write(file)
+newfile.close()
+
+editedfile_lines = open('./tfotr_text_edited.txt', 'r').read()
+

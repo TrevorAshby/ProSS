@@ -1,4 +1,5 @@
 from collections import Counter
+import re
 
 def sentence2vec(sent):
     vocab = open('./word2idx.txt', 'r').read()
@@ -10,27 +11,41 @@ def sentence2vec(sent):
     return vec
 
 
-file = open('./01 - The Fellowship Of The Ring.txt', 'r').read()
-file = file.replace('\t', '')
+file = open('./tfotr_text.txt', 'r').read()
 file = file.replace('\n', '')
-file = file.replace(',', ' , ')
-file = file.replace('-', ' - ')
-file = file.replace('\'', ' \' ')
-file = file.replace('\"', ' \" ')
-file = file.replace('(', ' ( ')
-file = file.replace(')', ' ) ')
-file = file.replace(':', ' : ')
-file = file.replace(';', ' ; ')
-file = file.replace('?', ' ?\n')
-file = file.replace('.', ' .\n')
-file = file.replace('!', ' !\n')
-file = file.lower()
+file = re.split(r'[.?!]', file)
+file2 = open('./tfotr_text_lines.txt', 'w')
 
-newfile = open('./TFOTR.txt', 'w')
-newfile.write(file)
+for line in file:
+    line2 = line.strip()
+    line2 = line2.replace('\t', '')
+    #line2 = line2.replace('?', ' ?\n')
+    #line2 = line2.replace('.', ' .\n')
+    #line2 = line2.replace('!', ' !\n')
+    line2 = line2.replace(',', ' , ')
+    line2 = line2.replace('_', '')
+    line2 = line2.replace('-', ' - ')
+    line2 = line2.replace('\'', ' \' ')
+    line2 = line2.replace('\"', ' \" ')
+    line2 = line2.replace('(', ' ( ')
+    line2 = line2.replace(')', ' ) ')
+    line2 = line2.replace(':', ' : ')
+    line2 = line2.replace(';', ' ; ')
+    line2 = line2.lower()
+    
+    print('line2: ', line2)
+    if len(line2) > 10:
+        line2 = line2.strip()
+        file2.write(line2+'\n')
 
-lines = open('./TFOTR.txt', 'r').readlines()
-text5 = open('./TFOTR.txt', 'r').read()
+file2.close()
+
+
+#newfile = open('./TFOTR.txt', 'w')
+#newfile.write(file)
+
+lines = open('./tfotr_text_lines.txt', 'r').readlines()
+text5 = open('./tfotr_text_lines.txt', 'r').read()
 
 text = []
 for line in lines:
@@ -53,11 +68,11 @@ file2.write('<EOS>' + ' ')
 file2.write('<BOS>' + ' ')
 
 #print(all_words)
-newfile.close()
+#newfile.close()
 file2.close()
 
 newfile = open('./TFOTR.txt', 'w')
 newfile.writelines(text)
 newfile.close()
 
-print(sentence2vec("how are you ?"))
+print(sentence2vec("how are you "))

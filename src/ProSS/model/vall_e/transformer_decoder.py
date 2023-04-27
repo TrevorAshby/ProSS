@@ -211,13 +211,14 @@ if __name__ == "__main__":
                 subsequent_mask(tgt.size(-1)).type_as(tgt_mask.data))
             return tgt_mask
         
-    def data_gen(V, batch, nbatches):
+    def data_gen(V, batch, nbatches, lines):
         "Generate random data for a src-tgt copy task."
         for i in range(nbatches):
             #data = torch.from_numpy(np.random.randint(1, V, size=(batch, 10)))
             
             from dataset import sentence2vec
-            vec = sentence2vec("<BOS> how are you ? <EOS>")
+            #vec = sentence2vec("<BOS> how are you <EOS>")
+            vec = sentence2vec(lines[i])
             #vec = position(encode(torch.tensor(vec)))
 
 
@@ -227,12 +228,15 @@ if __name__ == "__main__":
             tgt = Variable(data, requires_grad=False)
             yield Batch(src, tgt, 0)
 
-    d_model = 512
-    N = 16
+    d_model = 256
+    N = 4
     h = 8
     dropout = 0.1
     d_ff = 2048
-    V = 9269 + 3
+    V = 8983 + 3
+
+    n_lines = 13183
+    lines = open('./tfotr_text_lines.txt', 'r').readlines()
 
     c = copy.deepcopy
     attn = MultiHeadedAttention(h, d_model)
@@ -241,10 +245,10 @@ if __name__ == "__main__":
     decoder = Decoder(DecoderLayer(d_model, c(attn), c(attn), c(ff), dropout), N, V)
 
    
-    encode = Embeddings(512, V)
+    encode = Embeddings(d_model, V)
     
     from dataset import sentence2vec
-    vec = sentence2vec("<BOS> how are you ? <EOS>")
+    vec = sentence2vec("<BOS> how are you <EOS>")
     vec = encode(torch.tensor(vec))
     print(vec)
     
@@ -268,7 +272,7 @@ if __name__ == "__main__":
 
     def run_epoch(data_iter, dec, loss_compute):
         "Standard Training and Logging Function"
-        encode = Embeddings(512, 9269 + 3)
+        encode = Embeddings(256, 8983 + 3)
         start = time.time()
         total_tokens = 0
         total_loss = 0
@@ -369,10 +373,10 @@ if __name__ == "__main__":
 
     for epoch in range(20):
         decoder.train()
-        run_epoch(data_gen(V, 30, 20), decoder, 
+        run_epoch(data_gen(V, 30, n_lines, lines), decoder, 
                 SimpleLossCompute(decoder.generator, criterion, model_opt))
         decoder.eval()
-        print(run_epoch(data_gen(V, 30, 5), decoder, 
+        print(run_epoch(data_gen(V, 30, 5, lines), decoder, 
                         SimpleLossCompute(decoder.generator, criterion, None)))
         
 
